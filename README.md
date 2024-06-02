@@ -1,8 +1,9 @@
 # README
 
-Сообщество - https://t.me/blckbazars
+Канал - https://t.me/tonnames_rus  
+Чат - https://t.me/tonnames_rus_chat
 
-Майнер для жетона GRAM. Нужна Windows и видеокарта с драйверами CUDA или OpenCL
+Майнер для VIP DNS NFT. Нужна Windows и видеокарта с драйверами CUDA или OpenCL
 
 - Создайте `config.txt`
 - Напишите мнемоник в файле `config.txt` в формате
@@ -29,9 +30,10 @@ TONAPI_TOKEN=
 
 # EN
 
-Community - https://t.me/blckbazars
+Channel - https://t.me/tonnames_rus  
+Chat - https://t.me/tonnames_rus_chat
 
-Miner for GRAM jetton. CUDA or OpenCL GPU needed.
+Miner for VIP DNS NFT. CUDA or OpenCL GPU needed.
 
 - Create `config.txt`
 - Enter your mnemonic `config.txt` in format
@@ -43,18 +45,3 @@ SEED=word1 word2
 - Activate v4r2 wallet linked to mnemonic and send some funds there
 - Install nodejs [https://nodejs.org](https://nodejs.org/en)
 - Start miner by opening `start_tonhub.bat` (for AMD - `start_tonhub_amd.bat`)
-
-# 中文
-
-社群 - https://t.me/blckbazars
-
-目前挖礦 GRAM 以及其他近似的 Jetton 代幣，僅支持 CUDA 或 OpenCL 的顯卡。
-
-- 創建 `config.txt`
-- 在 `config.txt` 中輸入你的助記詞，格式如下
-  ```
-  SEED=word1 word2
-  ```
-- 啟用 v4r2 錢包，並將一些資金發送到錢包中
-- 安裝 NodeJs [https://nodejs.org](https://nodejs.org/en)
-- 通過打開 `start_tonhub.bat` 啟動挖礦（AMD 顯卡 - `start_tonhub_amd.bat`）
