@@ -32,7 +32,6 @@ dotenv_1.default.config({ path: '.env.txt' });
 dotenv_1.default.config();
 dotenv_1.default.config({ path: 'config.txt' });
 const args = (0, arg_1.default)({
-    '--givers': Number, // 100 1000 10000
     '--api': String, // lite, tonhub, tonapi
     '--bin': String, // cuda, opencl or path to miner
     '--gpu': Number, // gpu id, default 0
@@ -40,27 +39,6 @@ const args = (0, arg_1.default)({
     '--allow-shards': Boolean, // if true - allows mining to other shards
     '-c': String, // blockchain config
 });
-let givers = givers_1.givers1000;
-if (args['--givers']) {
-    const val = args['--givers'];
-    const allowed = [100, 1000];
-    if (!allowed.includes(val)) {
-        throw new Error('Invalid --givers argument');
-    }
-    switch (val) {
-        case 100:
-            givers = givers_1.givers100;
-            console.log('Using givers 100');
-            break;
-        case 1000:
-            givers = givers_1.givers1000;
-            console.log('Using givers 1 000');
-            break;
-    }
-}
-else {
-    console.log('Using givers 1 000');
-}
 let bin = '.\\pow-miner-cuda.exe';
 if (args['--bin']) {
     const argBin = args['--bin'];
@@ -96,7 +74,7 @@ if (envAddress) {
 let bestGiver = { address: '', coins: 0 };
 function updateBestGivers(liteClient, myAddress) {
     return __awaiter(this, void 0, void 0, function* () {
-        const giver = givers[Math.floor(Math.random() * givers.length)];
+        const giver = givers_1.givers[Math.floor(Math.random() * givers_1.givers.length)];
         bestGiver = {
             address: giver.address,
             coins: giver.reward,

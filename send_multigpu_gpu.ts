@@ -7,7 +7,6 @@ import { execSync, exec as exec_callback, spawn, ChildProcess } from 'child_proc
 import fs from 'fs'
 import { WalletContractV4 } from '@ton/ton';
 import dotenv from 'dotenv'
-import { givers1000, givers10000, givers100000 } from './givers_gpu'
 import arg from 'arg'
 import { LiteClient, LiteSingleEngine, LiteRoundRobinEngine } from 'ton-lite-client';
 import { getLiteClient, getTon4Client, getTonCenterClient, getTonapiClient } from './client';
@@ -15,6 +14,7 @@ import { HighloadWalletV2 } from '@scaleton/highload-wallet';
 import { OpenedContract } from '@ton/core';
 import { Api } from 'tonapi-sdk-js';
 import { promisify } from 'util'
+import { givers } from './givers';
 
 const exec = promisify(exec_callback)
 
@@ -26,7 +26,6 @@ dotenv.config({ path: 'config.txt' })
 type ApiObj = LiteClient | TonClient4 | Api<unknown>
 
 const args = arg({
-    '--givers': Number, // 100 1000 10000
     '--api': String, // lite, tonhub, tonapi
     '--bin': String, // cuda, opencl or path to miner
     '--gpu-count': Number, // GPU COUNT!!!
@@ -34,32 +33,6 @@ const args = arg({
     '--allow-shards': Boolean, // if true - allows mining to other shards
     '-c': String,  // blockchain config
 })
-
-let givers = givers1000
-if (args['--givers']) {
-    const val = args['--givers']
-    const allowed = [1000, 10000, 100000]
-    if (!allowed.includes(val)) {
-        throw new Error('Invalid --givers argument')
-    }
-
-    switch (val) {
-        case 1000:
-            givers = givers1000
-            console.log('Using givers 1 000')
-            break
-        case 10000:
-            givers = givers10000
-            console.log('Using givers 10 000')
-            break
-        case 100000:
-            givers = givers100000
-            console.log('Using givers 100 000')
-            break
-    }
-} else {
-    console.log('Using givers 1 000')
-}
 
 let bin = '.\\pow-miner-cuda.exe'
 if (args['--bin']) {

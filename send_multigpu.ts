@@ -7,7 +7,7 @@ import { execSync, exec as exec_callback, spawn, ChildProcess } from 'child_proc
 import fs from 'fs'
 import { WalletContractV4 } from '@ton/ton';
 import dotenv from 'dotenv'
-import { givers100, givers1000 } from './givers'
+import { givers } from './givers'
 import arg from 'arg'
 import { LiteClient, LiteSingleEngine, LiteRoundRobinEngine } from 'ton-lite-client';
 import { getLiteClient, getTon4Client, getTonCenterClient, getTonapiClient } from './client';
@@ -26,7 +26,6 @@ dotenv.config({ path: 'config.txt' })
 type ApiObj = LiteClient | TonClient4 | Api<unknown>
 
 const args = arg({
-    '--givers': Number, // 100 1000 10000
     '--api': String, // lite, tonhub, tonapi
     '--bin': String, // cuda, opencl or path to miner
     '--gpu-count': Number, // GPU COUNT!!!
@@ -34,29 +33,6 @@ const args = arg({
     '--allow-shards': Boolean, // if true - allows mining to other shards
     '-c': String,  // blockchain config
 })
-
-
-let givers = givers1000
-if (args['--givers']) {
-    const val = args['--givers']
-    const allowed = [100, 1000]
-    if (!allowed.includes(val)) {
-        throw new Error('Invalid --givers argument')
-    }
-
-    switch (val) {
-        case 100:
-            givers = givers100
-            console.log('Using givers 100')
-            break
-        case 1000:
-            givers = givers1000
-            console.log('Using givers 1 000')
-            break
-    }
-} else {
-    console.log('Using givers 1 000')
-}
 
 let bin = '.\\pow-miner-cuda.exe'
 if (args['--bin']) {

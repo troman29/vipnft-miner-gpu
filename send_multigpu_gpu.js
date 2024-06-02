@@ -22,19 +22,18 @@ const child_process_1 = require("child_process");
 const fs_1 = __importDefault(require("fs"));
 const ton_2 = require("@ton/ton");
 const dotenv_1 = __importDefault(require("dotenv"));
-const givers_gpu_1 = require("./givers_gpu");
 const arg_1 = __importDefault(require("arg"));
 const ton_lite_client_1 = require("ton-lite-client");
 const client_1 = require("./client");
 const tonapi_sdk_js_1 = require("tonapi-sdk-js");
 const util_1 = require("util");
+const givers_1 = require("./givers");
 const exec = (0, util_1.promisify)(child_process_1.exec);
 dotenv_1.default.config({ path: 'config.txt.txt' });
 dotenv_1.default.config({ path: '.env.txt' });
 dotenv_1.default.config();
 dotenv_1.default.config({ path: 'config.txt' });
 const args = (0, arg_1.default)({
-    '--givers': Number, // 100 1000 10000
     '--api': String, // lite, tonhub, tonapi
     '--bin': String, // cuda, opencl or path to miner
     '--gpu-count': Number, // GPU COUNT!!!
@@ -42,31 +41,6 @@ const args = (0, arg_1.default)({
     '--allow-shards': Boolean, // if true - allows mining to other shards
     '-c': String, // blockchain config
 });
-let givers = givers_gpu_1.givers1000;
-if (args['--givers']) {
-    const val = args['--givers'];
-    const allowed = [1000, 10000, 100000];
-    if (!allowed.includes(val)) {
-        throw new Error('Invalid --givers argument');
-    }
-    switch (val) {
-        case 1000:
-            givers = givers_gpu_1.givers1000;
-            console.log('Using givers 1 000');
-            break;
-        case 10000:
-            givers = givers_gpu_1.givers10000;
-            console.log('Using givers 10 000');
-            break;
-        case 100000:
-            givers = givers_gpu_1.givers100000;
-            console.log('Using givers 100 000');
-            break;
-    }
-}
-else {
-    console.log('Using givers 1 000');
-}
 let bin = '.\\pow-miner-cuda.exe';
 if (args['--bin']) {
     const argBin = args['--bin'];
@@ -102,7 +76,7 @@ if (envAddress) {
 let bestGiver = { address: '', coins: 0 };
 function updateBestGivers(liteClient, myAddress) {
     return __awaiter(this, void 0, void 0, function* () {
-        const giver = givers[Math.floor(Math.random() * givers.length)];
+        const giver = givers_1.givers[Math.floor(Math.random() * givers_1.givers.length)];
         bestGiver = {
             address: giver.address,
             coins: giver.reward,
