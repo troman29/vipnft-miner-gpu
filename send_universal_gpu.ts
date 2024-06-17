@@ -7,7 +7,7 @@ import { execSync } from 'child_process';
 import fs from 'fs'
 import { WalletContractV4 } from '@ton/ton';
 import dotenv from 'dotenv'
-import { givers } from './givers'
+import { givers } from './config'
 import arg from 'arg'
 import { LiteClient, LiteSingleEngine, LiteRoundRobinEngine } from 'ton-lite-client';
 import { getLiteClient, getTon4Client, getTonCenterClient, getTonapiClient } from './client';
@@ -69,12 +69,11 @@ if (envAddress) {
 
 
 
-let bestGiver: { address: string, coins: number } = { address: '', coins: 0 }
+let bestGiver: { address: string } = { address: '' }
 async function updateBestGivers(liteClient: ApiObj, myAddress: Address) {
     const giver = givers[Math.floor(Math.random() * givers.length)]
     bestGiver = {
         address: giver.address,
-        coins: giver.reward,
     }
 }
 

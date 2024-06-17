@@ -18,6 +18,7 @@ const axios_1 = __importDefault(require("axios"));
 const ton_lite_client_1 = require("ton-lite-client");
 // import { getHttpEndpoint, getHttpV4Endpoint } from "@orbs-network/ton-access";
 const tonapi_sdk_js_1 = require("tonapi-sdk-js");
+const config_1 = require("./config");
 let lc4 = undefined;
 let lc = undefined;
 let lcOrbs = undefined;
@@ -38,7 +39,7 @@ function getTon4Client(_configUrl) {
         if (lc4) {
             return lc4;
         }
-        lc4 = new ton_1.TonClient4({ endpoint: _configUrl !== null && _configUrl !== void 0 ? _configUrl : 'https://mainnet-v4.tonhubapi.com' });
+        lc4 = new ton_1.TonClient4({ endpoint: _configUrl !== null && _configUrl !== void 0 ? _configUrl : (config_1.IS_TESTNET ? 'https://testnet-v4.tonhubapi.com' : 'https://mainnet-v4.tonhubapi.com') });
         return lc4;
     });
 }
@@ -48,7 +49,7 @@ function getTon4ClientTonhub(_configUrl) {
         if (lcHub) {
             return lcHub;
         }
-        lcHub = new ton_1.TonClient4({ endpoint: _configUrl !== null && _configUrl !== void 0 ? _configUrl : 'https://mainnet-v4.tonhubapi.com' });
+        lcHub = new ton_1.TonClient4({ endpoint: _configUrl !== null && _configUrl !== void 0 ? _configUrl : (config_1.IS_TESTNET ? 'https://testnet-v4.tonhubapi.com' : 'https://mainnet-v4.tonhubapi.com') });
         return lcHub;
     });
 }
@@ -58,7 +59,7 @@ function getTonCenterClient(_configUrl) {
         if (lcToncenter) {
             return lcToncenter;
         }
-        lcToncenter = new ton_1.TonClient({ endpoint: _configUrl !== null && _configUrl !== void 0 ? _configUrl : 'https://toncenter.com/api/v2/jsonRPC' });
+        lcToncenter = new ton_1.TonClient({ endpoint: _configUrl !== null && _configUrl !== void 0 ? _configUrl : (config_1.IS_TESTNET ? 'https://testnet.toncenter.com/api/v2/jsonRPC' : 'https://toncenter.com/api/v2/jsonRPC') });
         return lcToncenter;
     });
 }
@@ -106,7 +107,7 @@ function getTonapiClient() {
             headers['Authorization'] = `Bearer ${process.env.TONAPI_TOKEN}`;
         }
         const httpClient = new tonapi_sdk_js_1.HttpClient({
-            baseUrl: 'https://tonapi.io',
+            baseUrl: config_1.IS_TESTNET ? 'https://testnet.tonapi.io' : 'https://tonapi.io',
             baseApiParams: {
                 headers,
             }

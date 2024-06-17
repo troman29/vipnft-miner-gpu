@@ -11,6 +11,7 @@
 ```
 SEED=word1 word2
 TONAPI_TOKEN=
+IS_TESTNET=0
 ```
 
 - Активируйте v4r2 кошелек. Отправьте на него средства, а потом отправьте транзакцию самому себе.
@@ -40,6 +41,8 @@ Miner for VIP DNS NFT. CUDA or OpenCL GPU needed.
 
 ```
 SEED=word1 word2
+TONAPI_TOKEN=
+IS_TESTNET=0
 ```
 
 - Activate v4r2 wallet linked to mnemonic and send some funds there

@@ -22,7 +22,7 @@ const child_process_1 = require("child_process");
 const fs_1 = __importDefault(require("fs"));
 const ton_2 = require("@ton/ton");
 const dotenv_1 = __importDefault(require("dotenv"));
-const givers_1 = require("./givers");
+const config_1 = require("./config");
 const arg_1 = __importDefault(require("arg"));
 const ton_lite_client_1 = require("ton-lite-client");
 const client_1 = require("./client");
@@ -71,13 +71,12 @@ if (envAddress) {
         process.exit(1);
     }
 }
-let bestGiver = { address: '', coins: 0 };
+let bestGiver = { address: '' };
 function updateBestGivers(liteClient, myAddress) {
     return __awaiter(this, void 0, void 0, function* () {
-        const giver = givers_1.givers[Math.floor(Math.random() * givers_1.givers.length)];
+        const giver = config_1.givers[Math.floor(Math.random() * config_1.givers.length)];
         bestGiver = {
             address: giver.address,
-            coins: giver.reward,
         };
     });
 }

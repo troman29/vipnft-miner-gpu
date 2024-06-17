@@ -3,6 +3,7 @@ import axios from "axios"
 import { LiteClient, LiteSingleEngine, LiteRoundRobinEngine } from "ton-lite-client"
 // import { getHttpEndpoint, getHttpV4Endpoint } from "@orbs-network/ton-access";
 import { HttpClient, Api } from 'tonapi-sdk-js';
+import {IS_TESTNET} from "./config";
 
 let lc4: TonClient4 | undefined = undefined
 let lc: LiteClient | undefined = undefined
@@ -30,7 +31,7 @@ export async function getTon4Client(_configUrl?: string): Promise<TonClient4> {
         return lc4
     }
 
-    lc4 = new TonClient4({ endpoint: _configUrl ?? 'https://mainnet-v4.tonhubapi.com' })
+    lc4 = new TonClient4({ endpoint: _configUrl ?? (IS_TESTNET ? 'https://testnet-v4.tonhubapi.com' : 'https://mainnet-v4.tonhubapi.com') })
     return lc4 as TonClient4
 }
 
@@ -40,7 +41,7 @@ export async function getTon4ClientTonhub(_configUrl?: string): Promise<TonClien
         return lcHub
     }
 
-    lcHub = new TonClient4({ endpoint: _configUrl ?? 'https://mainnet-v4.tonhubapi.com' })
+    lcHub = new TonClient4({ endpoint: _configUrl ?? (IS_TESTNET ? 'https://testnet-v4.tonhubapi.com' : 'https://mainnet-v4.tonhubapi.com') })
     return lcHub as TonClient4
 }
 
@@ -49,7 +50,7 @@ export async function getTonCenterClient(_configUrl?: string): Promise<TonClient
         return lcToncenter
     }
 
-    lcToncenter = new TonClient({ endpoint: _configUrl ?? 'https://toncenter.com/api/v2/jsonRPC' })
+    lcToncenter = new TonClient({ endpoint: _configUrl ?? (IS_TESTNET ? 'https://testnet.toncenter.com/api/v2/jsonRPC' : 'https://toncenter.com/api/v2/jsonRPC') })
     return lcToncenter as TonClient
 }
 
@@ -103,12 +104,12 @@ export async function getTonapiClient(): Promise<Api<unknown>> {
         headers['Authorization'] = `Bearer ${process.env.TONAPI_TOKEN}`
     }
     const httpClient = new HttpClient({
-        baseUrl: 'https://tonapi.io',
+        baseUrl: IS_TESTNET ? 'https://testnet.tonapi.io' : 'https://tonapi.io',
         baseApiParams: {
             headers,
         }
     });
-    
+
     // Initialize the API client
     const client = new Api(httpClient);
     tonapiClient = client

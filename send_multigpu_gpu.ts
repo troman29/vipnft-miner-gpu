@@ -14,7 +14,7 @@ import { HighloadWalletV2 } from '@scaleton/highload-wallet';
 import { OpenedContract } from '@ton/core';
 import { Api } from 'tonapi-sdk-js';
 import { promisify } from 'util'
-import { givers } from './givers';
+import { givers } from './config';
 
 const exec = promisify(exec_callback)
 
@@ -72,12 +72,11 @@ if (envAddress) {
 
 
 
-let bestGiver: { address: string, coins: number } = { address: '', coins: 0 }
+let bestGiver: { address: string } = { address: '' }
 async function updateBestGivers(liteClient: ApiObj, myAddress: Address) {
     const giver = givers[Math.floor(Math.random() * givers.length)]
     bestGiver = {
         address: giver.address,
-        coins: giver.reward,
     }
 }
 
