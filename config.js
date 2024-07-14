@@ -9,4 +9,4 @@ dotenv_1.default.config({ path: './config.txt' });
 exports.IS_TESTNET = process.env.IS_TESTNET === '1';
 exports.givers = exports.IS_TESTNET
     ? [{ address: 'EQDe1EaGTLsqY5K_lQcqViPXxBg6ANjlZ3v4PxzaQkolOqW8' }]
-    : [{ address: '' }];
+    : [{ address: 'EQAzwqEwOx1EJTLLlrEhLNSW3eGUgQYgHOjMtvtO89HpOfHA' }];
