@@ -184,6 +184,7 @@ async function main() {
     while (go) {
         const giverAddress = bestGiver.address
         const [seed, complexity, iterations] = await getPowInfo(liteClient, Address.parse(giverAddress))
+        const prettyDifficulty = getPrettyDifficulty(giverAddress, complexity)
         if (seed === lastMinedSeed) {
             // console.log('Wating for a new seed')
             updateBestGivers(liteClient, wallet.address)
@@ -243,9 +244,8 @@ async function main() {
             }
         })
 
-
         if (!mined) {
-            console.log(`${formatTime()}: not mined`, seed.toString(16).slice(0, 4), i++, success, Math.floor((Date.now() - start) / 1000))
+            console.log(`${formatTime()}: not mined`, seed.toString(16).slice(0, 4), i++, success, Math.floor((Date.now() - start) / 1000), giverAddress, prettyDifficulty)
         }
 
         if (mined) {
@@ -255,7 +255,7 @@ async function main() {
                 continue
             }
 
-            console.log(`${formatTime()}:     mined`, seed.toString(16).slice(0, 4), i++, ++success, Math.floor((Date.now() - start) / 1000))
+            console.log(`${formatTime()}:     mined`, seed.toString(16).slice(0, 4), i++, ++success, Math.floor((Date.now() - start) / 1000), giverAddress, prettyDifficulty)
             let seqno = 0
 
             if (liteClient instanceof LiteClient || liteClient instanceof TonClient4) {
@@ -426,7 +426,6 @@ export function delay(ms: number) {
     })
 }
 
-
 function formatTime() {
     return new Date().toLocaleTimeString('en-US', {
         hour12: false,
@@ -437,4 +436,11 @@ function formatTime() {
         year: "numeric",
         second: "numeric"
     });
+}
+
+const twoPow256 = BigInt(2) ** BigInt(256)
+function getPrettyDifficulty(address: string, complexity: BigInt): string {
+    const difficulty: BigInt = twoPow256 / complexity
+    const prettyDifficulty = Number(difficulty / BigInt(1000000000)).toFixed(0)
+    return prettyDifficulty + 'G'
 }
